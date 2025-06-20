@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD SHREE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .title {
+            text-align: center;
+            font-size: clamp(1.5rem, 8vw, 3rem);
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: titlePulse 2s ease-in-out infinite alternate;
+            padding: 0 20px;
+        }
+
+        @keyframes titlePulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .roadmap {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            margin: 0 auto;
+            flex-grow: 1;
+            min-height: 400px;
+        }
+
+        .image-box {
+            position: absolute;
+            width: clamp(80px, 18vw, 120px);
+            height: clamp(80px, 18vw, 120px);
+            border: 2px dashed rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .image-box:hover {
+            transform: scale(1.1);
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .upload-text {
+            color: white;
+            font-size: clamp(10px, 3vw, 12px);
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            padding: 5px;
+        }
+
+        .image-box input[type="file"] {
+            display: none;
+        }
+
+        /* Mobile-responsive positioning for image boxes */
+        .box1 { 
+            top: 10%; 
+            left: 5%; 
+            animation: float 3s ease-in-out infinite; 
+        }
+        /* .box2 { 
+            top: 8%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            animation: float 3s ease-in-out infinite 0.5s; 
+        } */
+        .box3 { 
+            top: 10%; 
+            right: 5%; 
+            animation: float 3s ease-in-out infinite 1s; 
+        }
+        .box4 { 
+            top: 45%; 
+            left: 15%; 
+            animation: float 3s ease-in-out infinite 1.5s; 
+        }
+        .box5 { 
+            top: 40%; 
+            right: 15%; 
+            animation: float 3s ease-in-out infinite 2s; 
+        }
+        .box6 { 
+            bottom: 10%; 
+            left: 50%;
+            transform: translateX(-50%);
+            animation: float 3s ease-in-out infinite 2.5s; 
+        }
+
+        /* Desktop view adjustments */
+        @media (min-width: 768px) {
+            .box1 { top: 120px; left: 160px; transform: none; }
+            /* .box2 { top: 100px; left: 250px; transform: none; } */
+            .box3 { top: 70px; right: 160px; transform: none; }
+            .box4 { top: 320px; left: 300px; transform: none; }
+            .box5 { top: 270px; right: 300px; transform: none; }
+            .box6 { top: 440px; right: 70px; left: 110px; transform: none; bottom: auto; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* SVG paths for connections */
+        .path-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Mobile-optimized SVG paths */
+        .road-path {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.6);
+            stroke-width: 2;
+            stroke-dasharray: 8, 4;
+            animation: dashMove 4s linear infinite;
+        }
+
+        @media (min-width: 768px) {
+            .road-path {
+                stroke-width: 3;
+                stroke-dasharray: 10, 5;
+            }
+        }
+
+        @keyframes dashMove {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 30; }
+        }
+
+        .bottom-section {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .frame-info {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(14px, 4vw, 16px);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .next-btn {
+            padding: clamp(12px, 4vw, 15px) clamp(20px, 6vw, 30px);
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: clamp(16px, 4vw, 18px);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            -webkit-tap-highlight-color: transparent;
+            min-height: 44px;
+            min-width: 120px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .next-btn:active {
+            transform: translateY(0px);
+        }
+        .next{
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: clamp(16px, 4vw, 18px);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        h1{
+             font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        /* Sparkle effects */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title" class="head">HAPPY BIRTH DAY SHREE</h1>
+        
+        <div class="roadmap">
+            <!-- Mobile-optimized SVG for connecting paths -->
+            <svg class="path-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <!-- Mobile paths connecting the boxes -->
+                <path class="road-path" d="M 15 20 Q 40 15 30 50"></path>
+                <path class="road-path" d="M 85 20 Q 70 35 70 50"></path>
+                <path class="road-path" d="M 30 50 Q 20 65 25 80"></path>
+                <path class="road-path" d="M 70 50 Q 60 65 75 80"></path>
+                <path class="road-path" d="M 25 80 Q 50 90 75 80"></path>
+            </svg>
+
+            <!-- Image boxes -->
+            <div class="image-box box1" onclick="triggerUpload('upload1')">
+               
+                <div class="upload-text"><img height="200px" width="300px"  src="images/shree.jpg" alt=""></div>
+            </div>
+
+            
+
+            <div class="image-box box3" onclick="triggerUpload('upload3')">
+                
+                <div class="upload-text"><img height="200px" width="300px"  src="images/mahendra.jpg" alt=""></div>
+            </div>
+
+            <div class="image-box box4" onclick="triggerUpload('upload4')">
+               
+                <div class="upload-text"><img height="200px" width="300px"  src="images/smile.jpg" alt=""></div>
+            </div>
+
+            <div class="image-box box5" onclick="triggerUpload('upload5')">
+                
+                <div class="upload-text"><img height="00px" width="300px"  src="images/happy.jpg" alt=""></div>
+            </div>
+
+            <div class="image-box box6" onclick="triggerUpload('upload6')">
+              
+                <div class="upload-text"><img height="200px" width="300px"  src="images/heart.jpg" alt=""></div>
+            </div>
+
+            <!-- Sparkles -->
+            <div class="sparkle" style="top: 50px; left: 100px; animation-delay: 0s;"></div>
+            <div class="sparkle" style="top: 150px; right: 80px; animation-delay: 0.5s;"></div>
+            <div class="sparkle" style="top: 300px; left: 50px; animation-delay: 1s;"></div>
+            <div class="sparkle" style="bottom: 200px; right: 120px; animation-delay: 1.5s;"></div>
+        </div>
+
+        <div class="bottom-section">
+            
+            <button class="next-btn"> <a href="fav.html" class="next">NEXT PAGE </a></button>
+        </div>
+    </div>
+
+    <script>
+        function triggerUpload(inputId) {
+            document.getElementById(inputId).click();
+        }
+
+        function loadImage(input, boxClass) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const box = document.querySelector('.' + boxClass);
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Uploaded image';
+                    
+                    // Clear the box and add the image
+                    box.innerHTML = '';
+                    box.appendChild(img);
+                    
+                    // Add click handler to change image
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.style.display = 'none';
+                    input.onchange = function() { loadImage(this, boxClass); };
+                    box.appendChild(input);
+                    
+                    box.onclick = function() { input.click(); };
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function nextPage() {
+            // Add a smooth transition effect
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                alert('Moving to next page... (You can implement page navigation here)');
+                document.body.style.opacity = '1';
+            }, 500);
+        }
+
+        // Add random sparkles periodically
+        setInterval(() => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.position = 'fixed';
+            sparkle.style.zIndex = '1000';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }, 3000);
+    </script>
+</body>
+</html>

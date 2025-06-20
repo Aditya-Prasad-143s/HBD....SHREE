@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #ff4081;
+    }
+
+    .message {
+      font-size: 1.5em;
+      color: #333;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e73370;
+    }
+
+    .hidden {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #4caf50;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Happy Birthday!SHREE 🎂</h1>
+    <p class="message">✨Wishing you a day filled with love, joy, and lots of cake!✨</p>
+    <button onclick="showWish()">Click for a Surprise 🎁</button>
+    <p id="wishText" class="hidden">✨ You're amazing! ✨
+
+In the story of my life, you are my shree 🫶🏻,
+The melody I hum, my favorite tune🎶.
+Every heartbeat softly says your name,
+Since you arrived, nothing feels the same.
+
+my eyes hold dreams you long to see👀,
+On your birthday, I wish you and me —
+A love that grows like blooming flowers🌸,
+With whispered talks and endless hours⌛.
+
+May your smile shine brighter than today✨,
+And love wrap you softly in every way.
+With all my heart 💖, I just want to say,
+“I’m glad you are in my life — Happy Birthday!” 🌹</p>
+  </div>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <script>
+    function showWish() {
+      document.getElementById("wishText").classList.remove("hidden");
+      startConfetti();
+    }
+
+    function startConfetti() {
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let confetti = [];
+      const colors = ["#fce18a", "#ff726d", "#b48def", "#f4306d"];
+
+      for (let i = 0; i < 150; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 100 + 10,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          tilt: Math.random() * 10 - 10,
+          tiltAngle: 0,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach((c, i) => {
+          ctx.beginPath();
+          ctx.lineWidth = c.r / 2;
+          ctx.strokeStyle = c.color;
+          ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+          ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r);
+          ctx.stroke();
+        });
+
+        update();
+        requestAnimationFrame(draw);
+      }
+
+      function update() {
+        confetti.forEach((c, i) => {
+          c.tiltAngle += 0.1;
+          c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+          c.tilt = Math.sin(c.tiltAngle - i) * 15;
+
+          if (c.y > canvas.height) {
+            c.x = Math.random() * canvas.width;
+            c.y = -10;
+          }
+        });
+      }
+
+      draw();
+    }
+  </script>
+</body>
+</html>
